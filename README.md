@@ -38,3 +38,6 @@ That will open up an interactive tutorial that looks like this:
 
 ![screenshot of the logic, conditionals, and loops
 tutorial](images/logic_learnr_screenshot.png)
+
+These tutorials and this package are provided freely under the MIT
+license.
