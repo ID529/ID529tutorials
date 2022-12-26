@@ -1,0 +1,382 @@
+---
+title: "Tutorial for Conditionals, Logic, and Programming Flow"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to use conditionals, logic, and programming flow in R!
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(learnr)
+```
+
+### Welcome
+
+In this tutorial, you will learn how to:
+
+  * Use `if`, `else`, `for` and `while`
+  * Use `&` and `|`
+  * Know when to use `in` vs `%in%`
+  * Get comfortable using `==`, `!=`, and `!`
+
+### `if` 
+
+`if` let's you evaluate code dependent on some condition specified in R. 
+
+For example, the following code will print "hello world!" on the console because the condition given is `TRUE`:
+
+```{r example-if, echo=TRUE, eval=FALSE}
+if (TRUE) { 
+  print("hello world!") 
+}
+```
+
+How could you modify the following code to print "Battlestar Galactica" to the console?
+
+```{r if1, exercise=TRUE, exercise.eval=FALSE}
+if (_____) {
+  print("Battlestar Galactica")
+}
+```
+
+```{r if1-solution}
+if (TRUE) {
+  print("Battlestar Galactica")
+}
+```
+
+### Using Meaningful Conditions
+
+The conditions given can get more complicated.  For example, what do you think the following code might do?
+
+```{r if2, eval = FALSE, echo = TRUE}
+x <- 1
+if (x > 0) {
+  print("Pokemon Go!")
+}
+```
+
+It prints "Pokemon Go!"
+
+### A Few Examples
+
+Here are some examples that are fairly common types of places `if` might be used:
+
+```{r, eval = FALSE, echo = TRUE}
+# if certain conditions require warning or distinct behavior, you might write
+# something like:
+
+# note that the process for generating x could be any data generating process,
+# but here we get a random integer in 1 to 10
+
+x <- sample(n = 10, size = 1) 
+
+if (x > 5) {
+  warning("x is greater than 5")
+}
+```
+
+
+```{r, eval = FALSE, echo = TRUE}
+# sometimes you'll encounter missing data that may need to be especially handled: 
+
+# again, imagine this code for generating x could be a more complicated data
+# generating process, like data someone gave you.
+
+x <- c(0, 1, NA)[sample(n = 3, size = 1)] 
+if (is.na(x)) {
+  warning("x is missing data!")
+}
+# or: 
+if (is.na(x)) {
+  x <- 0.5 # impute x with a specific value; not often advised, but sometimes warranted
+}
+```
+
+```{r, eval = FALSE, echo = TRUE}
+# a more complicated example might be testing if a file exists and then reading
+# it in if it actually exists:
+
+path_to_file <- "/path/to/filename.txt"
+if (file.exists(path_to_file)) {
+  file_contents <- readLines(path_to_file)
+}
+```
+
+### Multiple Branches 
+
+A programmer can use `if` and `else` together to evaluate one of two programming
+expressions dependent on the condition given.
+
+For example, what do you think the following might do? 
+
+```{r logicals, echo = FALSE}
+question("What will the following code return? 
+  ```r
+  x <- 123
+  if (is.character(x)) {
+   print('The Simpsons')
+  } else {
+   print('Sesame Street')
+  }
+  ```
+",
+         answer("The Simpsons", message = "x isn't a character object, so this answer is incorrect."),
+         answer("Sesame Street", correct = TRUE, message = "x is not a character object, so the code in the `else` block is what gets evaluated, resulting in 'Sesame Street' being printed to the console"),
+         answer("Blues Clues", message = "This didn't even appear in any of the branches in the code, so there's no way this could have been the output."),
+         allow_retry = TRUE
+)
+```
+
+You can even use multiple `if` `else` statements chained together. 
+
+What do you think the following might do? 
+
+```{r elseif, echo=FALSE}
+question("What will the following code return? 
+  ```r
+  x <- 123
+  if (is.character(x)) {
+   print('The Simpsons')
+  } else if (is.numeric(x)) {
+   print('Sesame Street')
+  } else {
+    print('Doctor Who')
+  }
+  ```
+",
+         answer("The Simpsons", message = "x isn't a character object, so this answer is incorrect."),
+         answer("Sesame Street", correct = TRUE, message = "x is not a character object, so the code in the `else` block is what gets evaluated, resulting in 'Sesame Street' being printed to the console"),
+         answer("Doctor Who", message = "x is an object of numeric type, so the branch 'Doctor Who' appears in won't be the branch of the code that's evaluated."),
+         answer("Blues Clues", message = "This didn't even appear in any of the branches in the code, so there's no way this could have been the output."),
+         allow_retry = TRUE
+)
+```
+
+### `for` 
+
+When we want to solve repetitive tasks (something computers & machines are great at helping with), we often turn to 
+using loops in programming languages.  Loops define behavior that is repeated some programmatically determined number of times. 
+The two types of loops we'll be using are `for` and `while` loops, and we'll be starting with `for` loops here. 
+
+Let's have an example to talk about: 
+
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+```
+
+The basic syntax will always be the same for a `for` loop — they always have these 
+three components: 
+
+  * they start with `for`
+  * then there's a parenthetical with an `in` statement like (__ in ___)`
+  * and they have a block of code that is repeated, i.e., what's inside the `{}`.
+
+What the `for` loop does is it assigns the *iterator* (here named `i`) to each level
+of the sequence given (here `1:5`, the values 1,2,3,4,5) and then evaluates the 
+code given in the block.  So if we were to re-write the above without using `for`
+it would look like this:
+
+```{r, eval=FALSE}
+i <- 1
+print(i)
+i <- 2
+print(i)
+i <- 3
+print(i)
+i <- 4
+print(i)
+i <- 5
+print(i)
+```
+
+A bit more verbose right? 
+
+`for` loops can be used with sequences besides integer sequences — as long as it
+can be indexed using integers, it can be used as a sequence for a `for` loop. 
+
+```{r for, echo=FALSE}
+question("What will the following do? 
+  ```r
+  fruits <- c('apple', 'banana', 'persimmon', 'boysenberry')
+  for (fruit in fruits) {
+    print(fruit)
+  }
+  ```
+",
+         answer("Print 'apple'", message = "It will print 'apple', but the code will do more than that 🙂"),
+         answer("Print 'fruit'", message = "Not quite; fruit is just a variable, so the value it represents will be what actually gets printed;  moreover, it's inside a for loop, so the fruit variable will be printed multiple times."),
+         answer("Print 'apple' then 'banana' then 'persimmon' then 'boysenberry'", correct = TRUE, message = "That's right! The fruit variable will get assigned 'apple', then be printed, and so-on and so-forth for each of the values in the fruits vector."),
+         answer("Print 'fruits'", message = "Not quite; 'fruits' is the name of the vector that is the sequence the `for` loop will iterate over, not what will get printed."),
+         allow_retry = TRUE
+)
+```
+
+### `while`
+
+The second type of loops we'll introduce you to are `while` loops.  `while` loops are particularly useful 
+when it's uncertain when some action needs to be done until a certain condition is reached and it's
+difficult to determine in advance how many times that action will need to be done. 
+
+For example, imagine you are picking apples and take out the seeds from each
+apple.  You'd like to collect at least 100 apple seeds, but the number of seeds
+in each apple varies (typically between 5-13 seeds per apple).
+
+We can simulate this process in a `while` loop. 
+
+```{r}
+seeds_collected <- 0 # to start with, we haven't collected any apple seeds 
+
+while (seeds_collected < 100) {
+  
+  # grab a new apple and collect its seeds
+  new_seeds <- c(5:13)[sample.int(n = 9, size = 1)] # a random number between 5 to 13
+  
+  seeds_collected <- seeds_collected + new_seeds # now we have what we've already collected + the new seeds
+}
+
+print(seeds_collected) # at the end, we'll have 100 or more seeds!
+```
+
+The basic structure of a `while` loop are the following three components: 
+
+  * `while` at the beginning
+  * a condition inside the `()` parentheses
+  * and a block of code to evaluate repeatedly until the condition given becomes `TRUE`. 
+
+Ok, maybe collecting apple seeds doesn't sound like something that your job will
+depend on, but how about a modeling problem where you need to be confident that
+your model parameters have done a good job fitting the data? 
+
+Here's how we might write that out **in pseudocode** using a `while` loop: 
+
+```{r, eval=FALSE}
+parameters <- ... # our model has some parameters we're optimizing
+
+while (model_fit > acceptable_threshold) {
+  
+  # find some new acceptable, hopefully better parameters for the model
+  parameters <- find_new_candidate_parameters()
+  
+  # evaluate how good the model performs using the new parameters
+  model_fit <- measure_model_performance(parameters)
+}
+```
+
+```{r while, echo=FALSE}
+question("What will the following do? 
+  ```r
+  x <- 0
+  while (x < 100) {
+    x <- x + sample.int(n = 10, size = 1)
+    print(x)
+  }
+  ```
+",
+         answer("Print 0", message = "Nope. `x` will have already had a value of at least 1 added to it before the first time its printed.  Moreover, it will get printed multiple times in this `while` loop."),
+         answer("Print 100", message = "Nope. 100 is just the threshold where once x is 100 or greater, the code in the `{}` brackets won't be repeated anymore."),
+         answer("Print 100 numbers between 0 and 100", message = "Nope; there's no guarantee that exactly 100 numbers will be printed. Because `x` is being incremented by a *random* number between 1 and 10 each time, we can't be certain how many numbers will be printed out."),
+         answer("Print out some indeterminate number of numbers, at least 10, between 1 up to 109", correct = TRUE, message = "Great job figuring it out!"),
+         allow_retry = TRUE
+)
+
+```
+
+
+### `&` and `|`
+
+`&` and `|` are logical operators that represent the logical "AND" and "OR" operations. 
+
+In R and in formal logic settings, we say that `x & y` is `TRUE` if both `x` and `y` 
+are true.  Similarly, we say `x | y` (read: `x` or `y`) is `TRUE` if one or
+both of `x` and `y` is `TRUE`. 
+
+Here are some examples: 
+
+```{r, eval=F}
+TRUE & TRUE # is true
+TRUE & FALSE # is false 
+FALSE & TRUE # is false 
+FALSE & FALSE # is false 
+TRUE | TRUE # is true
+TRUE | FALSE # is true 
+FALSE | TRUE # is true 
+FALSE | FALSE # is false
+```
+
+It does sometimes get more complicated than this.  Here's a trickier example: 
+
+```{r nested_logic, echo=FALSE}
+question("What will `TRUE & (FALSE | TRUE)` evaluate to?",
+         answer("`FALSE`", message = "Nope. The key insight here is that the inner expression `(FALSE | TRUE)` (read: FALSE or TRUE) will evaluate to `TRUE`, and then the outer expression evaluates as `TRUE & TRUE`, which is `TRUE`."),
+         answer("`TRUE`", correct = TRUE, message = "That's correct!  It's a bit tricky, but you got it. The key insight here is that the inner expression `(FALSE | TRUE)` (read: FALSE or TRUE) will evaluate to `TRUE`, and then the outer expression evaluates as `TRUE & TRUE`, which is `TRUE`."),
+         allow_retry = TRUE
+)
+```
+
+
+### in versus %in%
+
+You've already seen `in`, which appeared in how iteration along a sequence is specified 
+in a `for` loop.  R has another, similar operator, `%in%` that **tests** for if
+a given variable (typically a single value) appears inside another variable
+(typically a vector or list).
+
+That is to say, `x %in% y` tests if `x` appears in `y`.  Here's an example: 
+
+```{r}
+'apple' %in% c('apple', 'banana', 'pear', 'starfruit')
+```
+
+`%in%` will return either `TRUE` or `FALSE` depending on whether or not its left-hand-side
+is in its right-hand-side (i.e., `x %in% y` will be `TRUE` if `x` is in `y`).
+
+So why are there two?  When do you use one and not the other?  Thankfully the answer
+is simple: you only need to use `in` inside a `for` loop, and `%in%` is what you use
+to test if a variable is contained in another variable.
+
+### `==`, `!=` and `!` 
+
+First, congratulate yourself on making it this far!  This has been a lot, and
+you're doing great!
+
+Thankfully, we're wrapping up.
+
+`==` tests for equality between two variables, and similarly `!=` tests for 
+inequality. 
+
+Some examples: 
+
+```{r, eval=FALSE}
+'apple' == 'apple' # TRUE
+1 == 1 # TRUE
+
+'apple' != 'banana' # TRUE, because 'apple' is _not_ equal to 'banana'
+1 != 2 # TRUE, because 1 is _not_ equal to 2
+```
+
+**A word to the wise:** it's very easy to get `=` and `==` mixed up (especially just as a typo),
+so be especially careful to make sure you don't make typos with these since
+their meaning is different. `=` typically works just like the assignment `<-`
+operator, so that will overwrite your variables, while `==` tests for equality
+(and returns `TRUE` or `FALSE`). Since they do different things, it can be quite
+an annoying bug when you accidentally make a typo swapping `==` for `=` or vice
+versa.
+
+So what about the `!` operator?  Just read it like "not". 
+
+```{r not, echo=FALSE}
+question("What will `! TRUE` evaluate to?",
+         answer("`FALSE`", correct = TRUE, message = "Yes, exactly! 'Not `TRUE`' would be `FALSE` indeed." ),
+         answer("`TRUE`", message = "Ah, not exactly. You should read the statement to yourself as '**NOT** `TRUE`'"),
+         allow_retry = TRUE
+)
+```
+
