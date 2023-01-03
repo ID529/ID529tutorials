@@ -298,7 +298,7 @@ In R and in formal logic settings, we say that `x & y` is `TRUE` if both `x` and
 are true.  Similarly, we say `x | y` (read: `x` or `y`) is `TRUE` if one or
 both of `x` and `y` is `TRUE`. 
 
-Here are some examples: 
+That is to say, this is what the truth table looks like for these operators: 
 
 ```{r, eval=F}
 TRUE & TRUE # is true
@@ -311,10 +311,22 @@ FALSE | TRUE # is true
 FALSE | FALSE # is false
 ```
 
+In real life, we typically aren't just using `&` and `|` with explicit `TRUE` and
+`FALSE` values, but rather variables that may change during the course of 
+running a program.
+
+```{r, eval=F}
+x <- sample.int(n = 10, size = 1) # let's get two random integers between 1 and 10
+y <- sample.int(n = 10, size = 1) # we'll call them x and y
+
+(x > 5) & (y > 5) # one comparison we might do is to ask if x and y are both greater than 5
+(x > 5) | (y > 5) # or, if at least one of x and y are greater than 5
+```
+
 It does sometimes get more complicated than this.  Here's a trickier example: 
 
 ```{r nested_logic, echo=FALSE}
-question("What will `TRUE & (FALSE | TRUE)` evaluate to?",
+question("What will `TRUE & (FALSE | TRUE)` evaluate to? (hint: remember the order of operations)",
          answer("`FALSE`", message = "Nope. The key insight here is that the inner expression `(FALSE | TRUE)` (read: FALSE or TRUE) will evaluate to `TRUE`, and then the outer expression evaluates as `TRUE & TRUE`, which is `TRUE`."),
          answer("`TRUE`", correct = TRUE, message = "That's correct!  It's a bit tricky, but you got it. The key insight here is that the inner expression `(FALSE | TRUE)` (read: FALSE or TRUE) will evaluate to `TRUE`, and then the outer expression evaluates as `TRUE & TRUE`, which is `TRUE`."),
          allow_retry = TRUE
