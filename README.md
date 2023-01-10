@@ -1,5 +1,5 @@
 Learnr Tutorials for ID529
-<a href='https://id529.github.io'><img src='https://github.com/ID529/lectures/raw/testa_dec19/graphics/id529-sticker.png' align='right' height='139' /></a>
+<a href='https://id529.github.io'><img src='https://github.com/ID529/lectures/raw/main/graphics/id529-sticker.png' align='right' height='139' /></a>
 ================
 
 This is a package that makes it easy to run the interactive tutorials
