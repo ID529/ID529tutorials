@@ -1,0 +1,288 @@
+---
+title: "The Basics 1: Intro to Objects and Vectors"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to create vectors, lists, access their elements, manipulate them, etc.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(learnr)
+```
+
+## Welcome 
+
+<div class="badge bg-primary" style="margin-top:-20px;">beginner</div>
+
+In this tutorial, you will learn how to: 
+
+  * Learn about the types of objects in R
+  * Create vectors
+  * Access elements of vectors
+  
+### Types of Objects in R
+
+R has four basic or **"atomic"** classes of objects:
+
+  - character
+  - numeric
+  - integer
+  - logical
+
+For the most part, everything more complicated than these objects is built up from these basic objects. So let's start with how to initialize these types of objects. 
+
+Do you want to give it a try first after what you've seen from class? 
+
+```{r objects1, exercise = TRUE}
+# Create a character object called my_character with the value "Hello World!"
+
+
+# Create an integer object called my_integer with the value 529
+
+
+# Create a numeric object called kgs_per_pound and set it to 0.454
+
+
+# Create a logical object called is_it_january and set it to TRUE
+
+```
+
+```{r objects1-hint}
+# To declare variables, we use a syntax that looks like this:
+my_character <- __________ 
+
+# The special things you need to pay attention to for filling in the blank are that:
+#   * for a character object you want to either wrap it in single or double 
+#     quotes, like 'Hello World!' or "Hello World!", 
+#   * and for a logical object you want to use either TRUE or FALSE in all-caps.
+
+# The next hint is the solution — so give it a solid attempt first! 
+```
+
+```{r objects1-solution}
+my_character <- "Hello World!"
+my_integer <- 529
+kgs_per_pound <- 0.454
+is_it_january <- TRUE
+```
+
+You may notice that R doesn't provide any feedback when you create an object. 
+That's OK! The feedback we're really getting here is that no error was thrown.
+
+### A Note on Naming
+
+<div class="alert alert-dismissible alert-info">
+  <p class="mb-0">
+  You may be curious what are valid names for an object in R. 
+  
+  A name for an object must start with a character and can contain letters,
+  numbers, periods and underscores. Typically one should prefer to use
+  underscores over periods because periods are used with special meaning in R's
+  object oriented systems.
+  </p>
+</div>
+
+
+### Checking Objects' Values
+
+You'll note there were actually a few conceptual steps in creating a variable:
+1) we had to give it a name, 2) we had to use an assignment operator (the `<-`
+arrow), and 3) we had to specify what the assigned value would be ("Hello
+World!").
+
+Now we might want to check what the values of our objects are. 
+You can do that by simply entering the name of the object into 
+the R console and running it, and then R will show you the value 
+of the object. 
+
+```{r objects-prep}
+my_character <- "Hello World!"
+my_integer <- 529
+kgs_per_pound <- 0.454
+is_it_january <- TRUE
+```
+
+```{r objects2, exercise = TRUE, exercise.setup = "objects-prep"}
+# try it out 
+```
+
+```{r objects2-hint}
+# try just putting in my_character and clicking run 
+```
+
+If you were trying to check the value of multiple objects, you may have 
+noticed that R only returned the value of the last object you entered. 
+Try comparing the two output to each other:
+
+```{r objects3, exercise = TRUE, exercise.setup = "objects-prep"}
+# First, just try uncommenting these four lines and running the code:
+# my_character
+# my_integer
+# kgs_per_pound
+# is_it_january
+
+# Second, try commenting out the above and uncommenting the next four lines and
+# running the code again:
+# print(my_character)
+# print(my_integer)
+# print(kgs_per_pound)
+# print(is_it_january)
+```
+
+```{r objects3-hint}
+# If you're not sure what I mean by "uncomment" or "comment out", here's what 
+# I mean:
+
+# The hashtag character (#) is used to create comments in R code — 
+# That means that the R interpreter will ignore anything on a line
+# after a # character appears. 
+
+# To uncomment a line, just delete the # character at the beginning of the line.
+# To comment out a line, just add a # character at the beginning of the line. 
+```
+
+### Checking the Types of Objects
+
+Sometimes you may want to check what the type of an object in 
+R is. You can use the `typeof()` or `class()` function on an 
+object to check its type. 
+
+```{r types, exercise = TRUE, exercise.setup = "objects-prep"}
+```
+
+```{r types-solution, exercise = TRUE}
+typeof(my_character)
+typeof(my_integer)
+typeof(kgs_per_pound)
+typeof(is_it_january)
+```
+
+### Just so you know
+
+<div class="alert alert-dismissible alert-info">
+  <p class="mb-0">
+  R also has two other important classes, which are functions and NULL. Null values 
+like `NULL`, `NA`, `NaN`, and `Inf` are also important to know about, but we want to make sure to cover the basics first. 
+  </p>
+</div>
+
+### Vectors
+
+Vectors are a specific type of object in R that can hold multiple values of the 
+**same type**. So for example, a vector can have all integer values, or all 
+logical values, but it can't mix two different types.
+
+Vectors can be created using the `c()` function, which stands for "combine".
+
+Let's give it a go:
+
+```{r vectors1, exercise = TRUE}
+# Create a vector called my_vector with the values 1, 2, 3, 4, 5
+
+# Create a vector called my_vector2 with the values "a", "b", "c"
+```
+
+```{r vectors1-hint}
+# To create a vector, we use a syntax that looks like this:
+# my_vector <- c(__, __, __, __) 
+
+# The next hint is the solution, so give it a go first!
+```
+
+```{r vectors1-solution}
+my_vector <- c(1, 2, 3, 4, 5)
+my_vector2 <- c("a", "b", "c")
+```
+
+### Accessing Elements of Vectors
+
+You can access elements of vectors by using square brackets `[]` and specifying
+the index of the element you want to access. 
+
+```{r vectors-prep}
+my_vector <- c(1, 2, 3, 4, 5)
+my_vector2 <- c("a", "b", "c")
+```
+
+```{r vectors2, exercise = TRUE, exercise.setup = "vectors-prep"}
+# Access the first element of my_vector
+
+```
+
+```{r vectors2-hint}
+# To access the first element of a vector, we use a syntax that looks like this:
+# my_vector[_]
+```
+
+```{r vectors2-solution}
+my_vector[1]
+```
+
+### Length of a Vector
+
+The length of a vector is the number of elements it contains. You can check the
+length of a vector using the `length()` function.
+
+```{r vectors3, exercise = TRUE, exercise.setup = "vectors-prep"}
+# Check the length of my_vector and my_vector2
+
+```
+
+```{r vectors3-solution}
+length(my_vector)
+length(my_vector2)
+```
+
+### Last element of a vector
+
+<br><br>
+
+Using what you just learned, can you think of how to access the last element of
+a vector?
+
+```{r vectors4, exercise = TRUE, exercise.setup = "vectors-prep"}
+# Access the last element of my_vector
+```
+
+```{r vectors4-hint}
+# We can use my_vector[n] to access the nth element of my_vector.
+# We can use length(my_vector) to get the length of my_vector.
+# Check the next hint for the solution
+```
+
+```{r vectors4-solution}
+my_vector[length(my_vector)]
+```
+
+### Accessing Any Element
+
+You can also use a variable when referencing the index
+of the vector element you want — let's try that out:
+
+```{r vectors5, exercise = TRUE, exercise.setup = "vectors-prep"}
+# Create a variable called n and set it to 3 
+# Then access the nth element of my_vector2
+```
+
+```{r vectors5-solution}
+n <- 3
+my_vector2[n]
+```
+
+### Congrats! 
+
+You finished this tutorial! 
+
+<iframe src="https://giphy.com/embed/3GBG7xejOXhH7MyQkn" width="480" height="384" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/molangofficialpage-kawaii-molang-piupiu-3GBG7xejOXhH7MyQkn">via GIPHY</a></p>
+
+References 
+
+  - R Basics: Quick & Easy <http://www.sthda.com/english/wiki/r-basics-quick-and-easy> 
+  - R for Beginners, Emmanuel Paradis <https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf>
+  - R for Data Science, Hadley Wickham & Garrett Grolemund <https://r4ds.had.co.nz/>
+
+  

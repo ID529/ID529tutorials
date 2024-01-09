@@ -1,0 +1,242 @@
+---
+title: "Functions: Part 1"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    toc_depth: 3
+runtime: shiny_prerendered
+description: >
+  Learn how to create functions, their parts, and how to call them.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(learnr)
+```
+
+## Functions: Part 1
+
+<div class="badge bg-primary">beginner</div>
+
+### What is a function?
+
+A function is a block of code that performs a specific task. 
+Functions are used to make code more modular, which makes it easier to read and debug. 
+Functions can be called multiple times throughout a script, which makes them very useful.
+
+### How to create a function
+
+Functions are created using the `function()` command. 
+
+```{r function1, exercise = TRUE}
+# Create a function called "my_function" that prints "Hello World!"
+my_function <- function() {
+  print("Hello World!")
+}
+
+# Call the function
+my_function()
+```
+
+### Function parts
+
+Here's another example: 
+
+```{r}
+# Create a function called "add" that adds two numbers together
+add <- function(x, y) {
+  return(x + y)
+}
+
+# Call the function
+add(2, 3)
+```
+
+Functions have the following parts: 
+
+  - A name (e.g. `my_function`)
+  - Arguments (e.g. `x` and `y`)
+  - A body (the code executed with the given arguments, put between the `{` and `}`)
+    - A return value (the last expression evaluated in the body)
+
+### Calling a function
+
+Functions are called using the function name and parentheses.
+
+Here's an example motivated by a common task in science: we'd like
+to report some estimate and its confidence interval (CI). 
+
+```{r function2, exercise = TRUE}
+# Create a function with the name format_ci that takes three arguments: 
+# x, low, and high, which are numbers and returns a string with the
+# confidence interval formatted as "x (low, high)" 
+
+# adapt the following template to do so:
+format_ci <- function(___________________) {
+  return(paste0(x, " (", low, ", ", high, ")"))
+}
+
+# This should return "52 (39, 65)"
+format_ci(52, 39, 65)
+```
+
+```{r function2-solution}
+format_ci <- function(x, low, high) {
+  paste0(x, " (", low, ", ", high, ")") 
+}
+```
+
+### 
+
+Just to improve on the function we just wrote, if we'd like to have this
+function format our estimate and CI in a string that conform to journal
+requirements.
+
+We could do something like this: 
+
+```{r}
+format_ci <- function(x, low, high) {
+  paste0(round(x, 2), " (", round(low, 2), ", ", round(high, 2), ")")
+}
+```
+
+###
+
+As an aside, we could also make the number of digits an argument. Can you figure 
+out how we would do that? Can you also take a guess as to how we would set
+a default value for the number of rounding digits we want?
+
+```{r functions3, exercise = TRUE}
+format_ci <- function(x, low, high, ____________) {
+  paste0(round(x, digits), " (", round(low, digits), 
+         ", ", round(high, digits), ")")
+}
+
+print(format_ci(52.1234, 39.1234, 65.1234, digits = 3))
+print(format_ci(52.1234, 39.1234, 65.1234)) # should return (52.12, 39.12, 65.12)
+```
+
+```{r functions3-solution}
+format_ci <- function(x, low, high, digits = 2) { # set defaults in the function definition
+  paste0(round(x, digits), " (", round(low, digits), 
+         ", ", round(high, digits), ")")
+}
+
+print(format_ci(52.1234, 39.1234, 65.1234, digits = 3))
+print(format_ci(52.1234, 39.1234, 65.1234)) # should return (52.12, 39.12, 65.12)
+```
+
+###
+
+<div class="alert alert-dismissible alert-info" width='100%'>
+  <p class='mb-0'>
+  You may have noticed that the solution above has a default value for the digits argument. This means that if we don't specify a value for digits, it will default to 2.
+  </p>
+</div>
+
+### 
+
+<div class="alert alert-dismissible alert-warning">
+  Something else you may have noticed is that the arguments to functions are 
+  always named and separated by commas. 
+  
+  This means that in calling functions, if you use arguments' names, the order
+  in which you specify the arguments doesn't matter. However, if you don't use
+  arguments names, R assumes that you're passing arguments in the same order as
+  they were specified in the function.
+  
+</div>
+
+### 
+
+<div class='alert alert-dismissible alert-success'>
+  The last subtle thing to point out is that the return value of a function is
+  the last expression evaluated in the body. It doesn't matter whether you call
+  `return()` on it or not.
+  
+  In general, most R developers follow a style of not using `return()`, though
+  some do because it is more explicit.
+
+  There are times in code when you want to return early from a function, in
+  which case you will always need to use `return()`.
+</div> 
+
+### Example with Control Flow 
+
+As highlighted above, sometimes we want to return early from a function.
+A typical scenario is one where we want to check whether the input to a
+function is valid. If it is, we want to continue with the function's
+execution. If it isn't, we want to return early.
+
+That could look something like this: 
+
+```{r}
+format_ci <- function(x, low, high, digits = 2) {
+  if (low > high) {
+    return("Error: the low argument is greater than the high argument")
+  }
+  paste0(round(x, digits), " (", round(low, digits), 
+         ", ", round(high, digits), ")")
+}
+```
+
+### 
+
+There are actually special functions for issuing warnings and error, similar
+to print in some ways.
+
+Raising an error is done with `stop()`, and issuing a warning is done with
+`warning()`.
+
+Raising an error will stop the execution of the function, whereas issuing a
+warning will not.
+  
+As such, we could have written the previous example as follows: 
+
+```{r, error = TRUE}
+format_ci <- function(x, low, high, digits = 2) {
+  if (low > high) {
+    stop("the low argument is greater than the high argument")
+  }
+  paste0(round(x, digits), " (", round(low, digits), 
+         ", ", round(high, digits), ")")
+}
+
+format_ci(52.1234, 65.1234, 39.1234)
+```
+
+### 
+
+Or 
+
+
+```{r}
+format_ci <- function(x, low, high, digits = 2) {
+  if (low > high) {
+    warning("the low argument is greater than the high argument")
+  }
+  paste0(round(x, digits), " (", round(low, digits), 
+         ", ", round(high, digits), ")")
+}
+
+format_ci(52.1234, 65.1234, 39.1234)
+```
+
+
+
+### Summary 
+
+What did we learn? 
+
+Functions have the following parts: a name, arguments, a body, and a return value. 
+Their arguments can have default values, and their arguments always have 
+names. All functions have a return value, but using `return()` explicitly 
+isn't always necessary since R will assume you want to use the last 
+expression evaluated in the body as the return value.
+
+<iframe src="https://www.dropbox.com/scl/fi/8bsyt2gv2ct0634m0af6n/arietty.gif?rlkey=thfbyv1iz5v5esr6ezuwumfhr&raw=1" width="480" height="384" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+References 
+
+  - R for Data Science, Hadley Wickham & Garrett Grolemund <https://r4ds.had.co.nz/>

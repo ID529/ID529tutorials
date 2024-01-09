@@ -36,8 +36,12 @@ run_tutorial(name = 'logic', package = 'ID529tutorials')
 
 That will open up an interactive tutorial that looks like this:
 
-![screenshot of the logic, conditionals, and loops
-tutorial](images/logic_learnr_screenshot.png)
+<figure>
+<img src="images/logic_learnr_screenshot.png"
+alt="screenshot of the logic, conditionals, and loops tutorial" />
+<figcaption aria-hidden="true">screenshot of the logic, conditionals,
+and loops tutorial</figcaption>
+</figure>
 
 These tutorials and this package are provided freely under the MIT
 license.

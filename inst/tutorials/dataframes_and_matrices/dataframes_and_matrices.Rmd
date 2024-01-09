@@ -1,0 +1,328 @@
+---
+title: "Data Frames and Matrices"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to create data frames, matrices, and perform some basic operations with them
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(learnr)
+```
+
+## Welcome
+
+<div class="badge bg-primary" style="margin-top:-20px;">beginner</div>
+
+Another basic data structure that you will encounter all the time 
+in R is the data frame. Data frames are the most common way that data is stored in R.
+Data frames are, under the hood, just a list of columns (vectors) that are all the same length. 
+
+### Creating Data Frames  
+
+There are many ways to create data frames in R. Let's start with the 
+most basic, which is to use the `data.frame()` function built into R.
+
+(Sometimes I'll say that something is built into "base R" which 
+means the same thing as built into R). 
+
+```{r dataframes1, exercise = TRUE}
+# Create a data frame called df with the following columns:
+# columns: "name", "age", "height", "weight"
+df <- data.frame(
+  name = c(______, _____, ______),
+  age = c(__, __, __),
+  height = c(____, ____, ____),
+  weight = c(____, ____, ____)
+)
+```
+
+```{r dataframes1-solution}
+# Create a data frame called df with the following columns:
+# columns: "name", "age", "height", "weight"
+df <- data.frame(
+  name = c("Pritha", "Nikhil", "Akiyo"),
+  age = c(25, 30, 35),
+  height = c(1.8, 1.6, 1.7),
+  weight = c(60, 80, 70)
+)
+```
+
+### Accessing Data Frames
+
+There are many ways to access data frames in R. Let's start with the
+most basic, which is to use the `$` operator. 
+
+```{r dataframes-prep}
+df <- data.frame(
+  name = c("Pritha", "Nikhil", "Akiyo"),
+  age = c(25, 30, 35),
+  height = c(1.8, 1.6, 1.7),
+  weight = c(60, 80, 70)
+)
+```
+
+```{r dataframes2, exercise = TRUE, exercise.setup = "dataframes-prep"}
+# Access the "name" column of df using the $ operator
+df$____
+```
+
+```{r dataframes2-solution}
+df$name
+```
+
+### 
+
+There are other parts of a data frame we might want to access, like we 
+might want to check the names of the columns, or the 
+number of rows or columns.
+
+```{r dataframes3, exercise = TRUE, exercise.setup = "dataframes-prep"}
+# Check the names of the columns of df
+____(df)
+
+# Check the number of rows and columns of df
+____(df)
+```
+
+```{r dataframes3-solution}
+# Check the names of the columns of df
+names(df)
+
+# Check the number of rows and columns of df
+dim(df) # returns a vector equivalent to c(nrow(df), ncol(df))
+nrow(df)
+ncol(df)
+```
+
+### 
+
+We can also access specific rows and columns of a data frame using
+the `[` operator. 
+
+```{r dataframes4, exercise = TRUE, exercise.setup = "dataframes-prep"}
+# Access the first row of df
+df[____, ]
+
+# Access the first column of df
+df[, ____]
+```
+
+```{r dataframes4-solution}
+# Access the first row of df
+df[1, ]
+
+# Access the first column of df
+df[, 1]
+```
+
+###
+
+We can also access multiple rows and columns of a data frame using the `[` operator. 
+
+```{r dataframes5, exercise = TRUE, exercise.setup = "dataframes-prep"}
+# Access the first and third rows of df
+df[____, ]
+```
+
+```{r dataframes5-solution}
+# Access the first and third rows of df
+df[c(1, 3), ]
+```
+
+### Matrices
+
+Matrices are another common data structure in R. Matrices are like data frames,
+but they can only contain one type of data (e.g. all numbers, or all strings).
+
+### Creating Matrices
+
+There are many ways to create matrices in R. Let's start with the
+most basic, which is to use the `matrix()` function built into R.
+
+```{r matrices1, exercise = TRUE}
+# Create a matrix called mat with the following values:
+# 1, 2, 3
+# 4, 5, 6
+# 7, 8, 9
+
+mat <- matrix(
+  c(____, ____, ____,
+    ____, ____, ____,
+    ____, ____, ____),
+  nrow = ____, ncol = ____, byrow = ____
+)
+```
+
+
+```{r matrices1-solution}
+# Create a matrix called mat with the following values:
+# 1, 2, 3
+# 4, 5, 6
+# 7, 8, 9
+
+mat <- matrix(
+  c(1, 2, 3,
+    4, 5, 6,
+    7, 8, 9),
+  nrow = 3, ncol = 3, byrow = TRUE
+)
+```
+
+```{r matrix-prep}
+df <- data.frame(
+  name = c("Pritha", "Nikhil", "Akiyo"),
+  age = c(25, 30, 35),
+  height = c(1.8, 1.6, 1.7),
+  weight = c(60, 80, 70)
+)
+
+mat <- matrix(
+  c(1, 2, 3,
+    4, 5, 6,
+    7, 8, 9),
+  nrow = 3, ncol = 3, byrow = TRUE
+)
+
+mat2 <- matrix(
+  c(1, 2, 3,
+    4, 5, 6,
+    7, 8, 9),
+  nrow = 3, ncol = 3, byrow = TRUE, 
+  dimnames = list(c("row1", "row2", "row3"), c("col1", "col2", "col3"))
+)
+```
+
+### Accessing Matrices
+
+Similar to data frames, there are many ways to access matrices in R. Let's start with the
+most basic, which is to use the `[` operator. 
+
+```{r matrices2, exercise = TRUE, exercise.setup = "matrix-prep"}
+# Access the last row of mat
+mat[____, ]
+
+# Access the last column of mat
+mat[, ____]
+```
+
+```{r matrices2-solution}
+# Access the last row of mat
+mat[nrow(mat), ] # or mat[3, ]
+
+# Access the last column of mat
+mat[, ncol(mat)] # or mat[, 3]
+```
+
+### Names for Matrices
+
+Matrices can also have names for their rows and columns. 
+
+```{r matrices3, exercise = TRUE, exercise.setup = "matrix-prep"}
+# Create a matrix called mat2 with the following values:
+# 1, 2, 3
+# 4, 5, 6
+# 7, 8, 9
+# and with the following row and column names:
+# "row1", "row2", "row3"
+# "col1", "col2", "col3"
+
+mat2 <- matrix(
+  c(____, ____, ____,
+    ____, ____, ____,
+    ____, ____, ____),
+  nrow = ____, ncol = ____, byrow = ____, 
+  dimnames = list(____, ____)
+)
+```
+
+```{r matrices3-solution}
+# Create a matrix called mat2 with the following values:
+# 1, 2, 3
+# 4, 5, 6
+# 7, 8, 9
+# and with the following row and column names:
+# "row1", "row2", "row3"
+# "col1", "col2", "col3"
+
+mat2 <- matrix(
+  c(1, 2, 3,
+    4, 5, 6,
+    7, 8, 9),
+  nrow = 3, ncol = 3, byrow = TRUE, 
+  dimnames = list(c("row1", "row2", "row3"), c("col1", "col2", "col3"))
+)
+```
+
+### Accessing Individual Elements
+
+We can access individual elements of either a matrix or a data frame using the `[` operator. 
+
+```{r matrices4, exercise = TRUE, , exercise.setup ='matrix-prep'}
+# Access the element in the first row and second column of mat2
+mat2[____, ____]
+df[____, ____]
+```
+
+```{r matrices4-solution}
+# Access the element in the first row and second column of mat2
+mat2[1, 2]
+df[1, 2]
+```
+
+### Operations on Matrices and Data Frames
+
+Some of the most common operations we might want to do on matrices are
+`colMeans()`, `colSums()`, `rowMeans()` and `rowSums()`.
+
+```{r matrices5, exercise = TRUE, exercise.setup = 'matrix-prep'}
+# Calculate the column means of mat2
+colMeans(mat2)
+
+# Calculate the row sums of mat2
+rowSums(mat2)
+```
+
+```{r matrices5-solution}
+# Calculate the column means of mat2
+colMeans(mat2)
+
+# Calculate the row sums of mat2
+rowSums(mat2)
+```
+
+### Matrix Arithmetic 
+
+We're not going to be doing a lot of matrix arithmetic in this class, but 
+it's useful to have seen that matrix multiplication uses a 
+special operator `%*%` in R. If you use `*` without the `%`s, you'll get
+element-wise multiplication. 
+
+```{r matrices6, exercise = TRUE, exercise.setup = "matrix-prep"}
+## Remember the contents of mat2? 
+mat2
+
+## Element-wise multiplication
+mat2 * mat2
+
+## Matrix multiplication
+mat2 %*% mat2
+```
+
+### Summary 
+
+What did we learn? 
+
+  - Data frames are the most common way that data is stored in R.
+  - Data frames are, under the hood, just a list of columns (vectors) that are all the same length.
+  - Matrices are like data frames, but they can only contain one type of data (e.g. all numbers, or all strings).
+  - Some of the most common operations we might want to do on matrices are
+`colMeans()`, `colSums()`, `rowMeans()` and `rowSums()`.
+  - Matrix multiplication uses a special operator `%*%` in R. If you use `*` without the `%`s, you'll get
+element-wise multiplication.
+
+<iframe src="https://giphy.com/embed/ayBZf3xVtT74Q" width="343" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/studio-ghibli-spirited-away-ayBZf3xVtT74Q">via GIPHY</a></p>

@@ -7,7 +7,6 @@ output:
 runtime: shiny_prerendered
 description: >
   Learn how to use conditionals, logic, and programming flow in R!
-date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
@@ -16,6 +15,8 @@ library(learnr)
 ```
 
 ## Welcome
+
+<div class="badge bg-primary" style="margin-top:-20px;">beginner</div>
 
 In this tutorial, you will learn how to:
 
@@ -391,4 +392,15 @@ question("What will `! TRUE` evaluate to?",
          allow_retry = TRUE
 )
 ```
+
+## Summary 
+
+In this tutorial, you learned how to: 
+
+  * Use `if`, `else`, `for` and `while`, all elements of controlling the flow of your program
+  * Use `&` and `|` for logical "and" and "or" operations
+  * Know when to use `in` vs `%in%` (hint: `in` is for `for` loops, `%in%` is for testing if a variable is in another variable)
+  * Get comfortable using `==`, `!=`, and `!` for testing equality, testing inequality, and negation.
+  
+<iframe src="https://www.dropbox.com/scl/fi/8bsyt2gv2ct0634m0af6n/arietty.gif?rlkey=thfbyv1iz5v5esr6ezuwumfhr&raw=1" width="480" height="384" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 
